@@ -18,9 +18,9 @@ from boltz.data.parse.csv import parse_csv
 from boltz.data.parse.fasta import parse_fasta
 from boltz.data.parse.yaml import parse_yaml
 from boltz.data.types import MSA, Manifest, Record
-from boltz.data.write.writer import BoltzWriter
+# from boltz.data.write.writer import BoltzWriter
 from boltz.model.model_test import Boltz1
-
+from writer import BoltzWriter
 
 CCD_URL = "https://huggingface.co/boltz-community/boltz-1/resolve/main/ccd.pkl"
 MODEL_URL = (
@@ -515,7 +515,7 @@ def predict(
     trainer = Trainer(
         default_root_dir=out_dir,
         strategy=strategy,
-        # callbacks=[pred_writer],
+        callbacks=[pred_writer],
         accelerator=accelerator,
         devices=devices,
         precision=32,

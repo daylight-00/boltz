@@ -10,10 +10,10 @@ from torchmetrics import MeanMetric
 
 import boltz.model.layers.initialize as init
 from boltz.data import const
-from boltz.data.feature.symmetry import (
-    minimum_lddt_symmetry_coords,
-    minimum_symmetry_coords,
-)
+# from boltz.data.feature.symmetry import (
+#     minimum_lddt_symmetry_coords,
+#     minimum_symmetry_coords,
+# )
 # from boltz.model.loss.confidence import confidence_loss
 # from boltz.model.loss.distogram import distogram_loss
 # from boltz.model.loss.validation import (
@@ -35,7 +35,7 @@ from boltz.model.modules.trunk import (
 )
 # from boltz.model.modules.utils import ExponentialMovingAverage
 # from boltz.model.optim.scheduler import AlphaFoldLRScheduler
-
+import h5py
 
 class Boltz1(LightningModule):
     def __init__(  # noqa: PLR0915, C901, PLR0912
@@ -314,17 +314,15 @@ class Boltz1(LightningModule):
 
                     s, z = pairformer_module(s, z, mask=mask, pair_mask=pair_mask)
 
-            pdistogram = self.distogram_module(z)
-            dict_out = {"pdistogram": pdistogram}
+            # pdistogram = self.distogram_module(z)
+            # dict_out = {"pdistogram": pdistogram}
 
-        print(s.shape)
-        print(z.shape)
-        print(s_inputs.shape)
-        print(feats["atom_pad_mask"].shape)
-
-        print(s)
-        print(s_inputs)
-
+        # print(s.shape)
+        # print(z.shape)
+        dict_out['s'] = s
+        dict_out['z'] = z
+        return dict_out
+    
         # # Compute structure module
         # if self.training and self.structure_prediction_training:
         #     dict_out.update(
@@ -373,4 +371,4 @@ class Boltz1(LightningModule):
         #     )
         # if self.confidence_prediction and self.confidence_module.use_s_diffusion:
         #     dict_out.pop("diff_token_repr", None)
-        return dict_out
+        # return dict_out
