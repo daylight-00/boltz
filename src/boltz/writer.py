@@ -222,7 +222,7 @@ class BoltzWriter(BasePredictionWriter):
         #             np.savez_compressed(path, pde=pde.cpu().numpy())
         for record in records:
             s = prediction['s'].squeeze(0)
-            z = prediction['z'].squeeze(0).mean(-1)
+            z = prediction['z'].squeeze(0)#.mean(-1)
             with h5py.File(self.output_dir / 's.h5', 'a') as f:
                 f.create_dataset(record.id, data=s.cpu().numpy())
             with h5py.File(self.output_dir / 'z.h5', 'a') as f:
